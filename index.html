@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TKO Life Remaining Strategy Plan</title>
+  <meta name="description" content="แผนยุทธศาสตร์ชีวิต 50 → 65 ปี (2024 - 2039)">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-logo" data-icon="compass"></div>
+        <div>
+          <h1 class="brand-title" id="appTitle"></h1>
+          <p class="brand-sub" id="appSubtitle"></p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="header-goals" id="headerGoals"></div>
+        <div class="header-actions">
+          <button class="btn btn-ghost" id="btnBackup" type="button"><span data-icon="download"></span>สำรองข้อมูล</button>
+          <button class="btn btn-ghost btn-icon" id="btnRestore" type="button" title="นำเข้าไฟล์สำรอง" aria-label="นำเข้าไฟล์สำรอง"><span data-icon="upload"></span></button>
+          <input type="file" id="restoreInput" accept="application/json,.json" hidden>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="stats" id="stats" aria-label="เป้าหมายหลัก"></section>
+
+    <section class="grid-charts">
+      <article class="card panel">
+        <div class="panel-head">
+          <h2 class="panel-title"><span data-icon="pie" class="ic-blue"></span>สมดุลศักยภาพชีวิต (4 Pillars)</h2>
+        </div>
+        <div class="chart-box chart-radar"><canvas id="radarChart" aria-label="กราฟเรดาร์ความคืบหน้า 4 ด้าน"></canvas></div>
+      </article>
+
+      <article class="card panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title"><span data-icon="activity" class="ic-green"></span>แนวโน้มสุขภาพ &amp; การเงิน (Metrics Tracking)</h2>
+            <p class="panel-sub">ติดตามผลน้ำหนัก ค่าน้ำตาล และยอดหนี้คงเหลือ</p>
+          </div>
+          <button class="btn btn-primary" id="btnAddRecord" type="button"><span data-icon="plus"></span>บันทึกค่าสัปดาห์ใหม่</button>
+        </div>
+        <div class="chart-box chart-line"><canvas id="lineChart" aria-label="กราฟแนวโน้มน้ำหนักและน้ำตาล"></canvas></div>
+      </article>
+    </section>
+
+    <section class="okrs">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title"><span data-icon="target" class="ic-amber"></span>5-Year Master OKRs (แผนยุทธศาสตร์ 5 ปี)</h2>
+          <p class="section-sub">บริหารและติดตามการบรรลุเป้าหมายทั้ง 4 มิติ</p>
+        </div>
+        <div class="tabs" role="tablist" id="okrTabs"></div>
+      </div>
+      <div class="okr-grid" id="okrGrid"></div>
+    </section>
+
+    <section class="card sim">
+      <div class="sim-head">
+        <div>
+          <p class="sim-kicker">Innovation &amp; Career Mastery</p>
+          <h2 class="section-title"><span data-icon="bot"></span>Smart Building &amp; Smart Farm IoT Simulator</h2>
+          <p class="section-sub">โมเดลต้นแบบการบริหารอาคารและโคกหนองนาไฮเทคที่ใช้คนน้อยที่สุด</p>
+        </div>
+        <span class="pill-live"><span class="dot"></span>Systems Active</span>
+      </div>
+      <div class="sim-grid" id="simGrid"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>ข้อมูลที่ปรับในหน้านี้จะถูกบันทึกไว้ในเบราว์เซอร์ของคุณเท่านั้น ใช้ปุ่ม "สำรองข้อมูล" เพื่อเก็บไฟล์ไว้</p>
+    <button class="link-btn" id="btnReset" type="button">รีเซ็ตเป็นค่าเริ่มต้น</button>
+  </footer>
+
+  <dialog class="modal" id="recordModal">
+    <form method="dialog" id="recordForm">
+      <h3>บันทึกค่าสัปดาห์ใหม่</h3>
+      <label>ชื่อสัปดาห์
+        <input type="text" name="label" id="fLabel" required>
+      </label>
+      <div class="form-row">
+        <label>น้ำหนัก (kg)
+          <input type="number" name="weight" step="0.1" min="30" max="250" required>
+        </label>
+        <label>น้ำตาล (mg/dL)
+          <input type="number" name="sugar" step="1" min="40" max="500" required>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>เวลาครอบครัว (ชม.) <span class="optional">ไม่บังคับ</span>
+          <input type="number" name="familyHours" step="0.5" min="0" max="168">
+        </label>
+        <label>เวลาเรียนรู้ (ชม.) <span class="optional">ไม่บังคับ</span>
+          <input type="number" name="learnHours" step="0.5" min="0" max="168">
+        </label>
+      </div>
+      <label>ยอดหนี้คงเหลือ (บาท) <span class="optional">ไม่บังคับ</span>
+        <input type="number" name="debt" step="1" min="0">
+      </label>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" value="cancel" formnovalidate type="submit">ยกเลิก</button>
+        <button class="btn btn-primary" value="save" type="submit">บันทึก</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
